@@ -1,0 +1,29 @@
+<odoo>
+    <template id="portal_breadcrumbs_inherit" inherit_id="portal.portal_breadcrumbs">
+        <xpath expr="//ol/li[last()]" position="after">
+            <t t-if="page_name == 'my_profile'">
+                <li class="breadcrumb-item active" aria-current="page">My Profile</li>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_account_inherit" inherit_id="portal.portal_my_home" name="Portal My Account - Add My Profile Card">
+        <xpath expr="//div[@id='portal_vendor_category']" position="inside">
+            <div id="portal_my_profile_card" class="o_portal_index_card col-md-6 order-3">
+                <a t-att-href="'/my/profile'"
+                    title="My Profile"
+                    class="d-flex justify-content-start align-items-center gap-3 py-3 px-3 h-100 rounded text-decoration-none text-reset text-bg-light">
+                
+                    <div class="o_portal_icon align-self-start">
+                        <img src="/dsl_study_core/static/src/icons/free-user-group-icon-296-thumb.png"
+                            alt="My Profile" style="width:40px; height:40px;"/>
+                    </div>
+                    <div>
+                        <h5 class="mt-0 mb-1 fw-bold">My Profile</h5>
+                        <p class="m-0 text-muted">Update your student profile</p>
+                    </div>
+                </a>
+            </div>
+        </xpath>
+    </template>
+</odoo>

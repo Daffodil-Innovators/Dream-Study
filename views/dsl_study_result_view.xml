@@ -1,0 +1,91 @@
+<odoo>
+    <data>
+        <!-- Search view for Student Results -->
+        <record id="dsl_study_student_result_search_view" model="ir.ui.view">
+            <field name="name">dsl.study.student.result.search</field>
+            <field name="model">dsl.study.student.result</field>
+            <field name="arch" type="xml">
+                <search string="Student Results">
+                    <field name="exam_type" string="Exam Type"
+                        filter_domain="[('exam_type','ilike',self)]" />
+                    <field name="institution_name" string="Institution Name"
+                        filter_domain="[('institution_name','ilike',self)]" />
+                    <field name="department" string="Department"
+                        filter_domain="[('department','ilike',self)]" />
+                    <field name="grade" string="Grade" filter_domain="[('grade','ilike',self)]" />
+                    <field name="passing_year" string="Passing Year"
+                        filter_domain="[('passing_year','ilike',self)]" />
+                    <field name="student_id" string="Student"
+                        filter_domain="[('student_id','ilike',self)]" />
+                    <!-- <filter string="Active" name="active_filter" domain="[('active','=',True)]"
+                        default="1" /> -->
+                </search>
+            </field>
+        </record>
+        <!-- Tree view for Student Results -->
+        <record id="view_student_result_tree" model="ir.ui.view">
+            <field name="name">dsl.study.student.result.tree</field>
+            <field name="model">dsl.study.student.result</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code" />
+                    <field name="exam_type" />
+                    <field name="institution_name" />
+                    <field name="department" />
+                    <field name="grade" />
+                    <field name="passing_year" />
+                    <field name="student_id" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view for Student Results -->
+        <record id="view_student_result_form" model="ir.ui.view">
+            <field name="name">dsl.study.student.result.form</field>
+            <field name="model">dsl.study.student.result</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code" readonly="1" />
+                                <field name="exam_type" />
+                                <field name="institution_name" />
+                                <field name="institution_code" />
+                                <field name="department" />
+                                <field name="education_board_id" />
+                                <field name="group_or_major" />
+                            </group>
+                            <group>
+                                <field name="grade" />
+                                <field name="grade_point" invisible="grade != 'gpa'" />
+                                <field name="total_mark" invisible="grade != 'others'" />
+                                <field name="passing_year" />
+                                <field name="duration_year" />
+                                <field name="marksheet" />
+                                <field name="certificate" />
+                                <field name="board_roll_number" />
+                                <field name="registration_number" />
+                                <field name="student_id" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action to open Student Results -->
+        <record id="action_dsl_student_result" model="ir.actions.act_window">
+            <field name="name">Student Results</field>
+            <field name="res_model">dsl.study.student.result</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menu item for Student Results -->
+        <!-- <menuitem id="menu_dsl_student_result"
+            name="Results"
+            parent="menu_dsl_study_root"
+            action="action_dsl_student_result"
+            sequence="4" /> -->
+    </data>
+</odoo>

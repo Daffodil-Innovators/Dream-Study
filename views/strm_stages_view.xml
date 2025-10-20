@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+
+        <!-- Form View Inheritance -->
+        <record id="strm_stages_form_strm" model="ir.ui.view">
+            <field name="name">crm.stage.form.strm</field>
+            <field name="model">crm.stage</field>
+            <field name="inherit_id" ref="crm.crm_stage_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='is_won']" position="before">
+                    <field name="is_strm"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="strm_stages_action" model="ir.actions.act_window">
+            <field name="name">strm stages</field>
+            <field name="res_model">crm.stage</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_strm', '=', True)]</field>
+            <field name="context">{'default_is_strm': True}</field>
+        </record>
+
+                <!-- crm stages-->
+
+        <record id="crm.crm_stage_action" model="ir.actions.act_window">
+            <field name="name">Stages</field>
+            <field name="res_model">crm.stage</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_strm', '=', False)]</field>
+            <!-- <field name="context">{'default_is_strm': False}</field> -->
+        </record> 
+    </data>
+</odoo>

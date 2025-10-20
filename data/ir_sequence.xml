@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- DSL Study Country -->
+        <record model="ir.sequence" id="dsl_study_country_code_sequence">
+            <field name="name">DSL study country</field>
+            <field name="code">dsl.study.country</field>
+            <field name="implementation">standard</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">DSC</field>
+            <field name="suffix"/>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+            <field name="number_next_actual">0</field>
+        </record>
+
+        <!-- DSL Study Country Institute -->
+        <record model="ir.sequence" id="dsl_study_country_institute_code_sequence">
+            <field name="name">DSL study country institute</field>
+            <field name="code">dsl.study.country.institute</field>
+            <field name="implementation">standard</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">DSCI</field>
+            <field name="suffix"/>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+            <field name="number_next_actual">0</field>
+        </record>
+
+        <!-- DSL Study Country Institute Program -->
+        <record model="ir.sequence" id="dsl_study_country_institute_program_code_sequence">
+            <field name="name">DSL study country institute Program</field>
+            <field name="code">dsl.study.country.institute.program</field>
+            <field name="implementation">standard</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">DSCIP</field>
+            <field name="suffix"/>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+            <field name="number_next_actual">0</field>
+        </record>
+
+        <!-- DSL Study Source -->
+        <record model="ir.sequence" id="dsl_study_source_code_sequence">
+            <field name="name">DSL study Source</field>
+            <field name="code">dsl.study.source</field>
+            <field name="implementation">standard</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">DSS</field>
+            <field name="suffix"/>
+            <field name="padding">5</field>
+            <field name="number_increment">1</field>
+            <field name="number_next_actual">0</field>
+        </record>
+
+
+        <!-- Student Code Sequence -->
+        <record id="seq_student_code" model="ir.sequence">
+            <field name="name">Student Code</field>
+            <field name="code">dsl.study.student</field>
+            <field name="prefix">STU</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False" />
+        </record>
+
+
+        <!-- Parent Code Sequence -->
+        <record id="seq_parent_code" model="ir.sequence">
+            <field name="name">Parent Code</field>
+            <field name="code">dsl.study.parent</field>
+            <field name="prefix">PAR</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False" />
+        </record>
+        <!-- Sponsor Code Sequence -->
+        <record id="seq_sponsor_code" model="ir.sequence">
+            <field name="name">Sponsor Code</field>
+            <field name="code">dsl.study.sponsor</field>
+            <field name="prefix">SPN</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False" />
+        </record>
+
+        <!-- Address -->
+        <record id="seq_address_code" model="ir.sequence">
+            <field name="name">Address Code</field>
+            <field name="code">dsl.study.address</field>
+            <field name="prefix">ADR</field>
+            <field name="padding">4</field>
+
+        </record>
+
+        <!-- Result -->
+        <record id="seq_result_code" model="ir.sequence">
+            <field name="name">Result Code</field>
+            <field name="code">dsl.study.result</field>
+            <field name="prefix">RES</field>
+            <field name="padding">4</field>
+        </record>
+
+
+    </data>
+</odoo>

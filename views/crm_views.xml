@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <record id="view_dsl_crm_form" model="ir.ui.view">
+            <field name="name">dsl.crm.form</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[.//field[@name='phone']]" position="after">
+                    <group>
+                        <separator string="Study Core" colspan="4"/>
+                            <group>
+                                <field name="preferred_country_id" widget = "many2many_tags"/>
+                                <field name="admission_officer_id" widget = "many2many_tags"/>
+                                <field name="admission_officer_ids" invisible="1"/>
+                                <field name="plan_to_study"/>
+                                <field name="interested_degree"/>
+                                <field name="current_profession"/>
+                                <field name="english_proficiency"/>
+                                <field name="how_did_you_hear"/>
+                                <field name="office_visit_date"/>
+                            </group>
+                            <group>
+                                <field name="counseling_mode"/>
+                                <field name="counselor_id"/>
+                                <field name="team_id"/>
+                                <field name="sponsor"/>
+                                <field name="file_open_date"/>
+                                <field name="done_date"/>
+                                <field name="cancel_date"/>
+                                <field name="note"/>
+                                
+                            </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="crm.crm_lead_all_leads" model="ir.actions.act_window">
+            <field name="name">Stages</field>
+            <field name="res_model">crm.lead</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_strm', '=', False)]</field>
+        </record>
+    </data>
+</odoo>

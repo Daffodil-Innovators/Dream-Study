@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Search View -->
+        <record id="dsl_study_country_institute_program_search_view" model="ir.ui.view">
+            <field name="name">dsl.study.country.institute.program.view</field>
+            <field name="model">dsl.study.country.institute.program</field>
+            <field name="arch" type="xml">
+                <search string="DSL study Institute">
+                    <field name="name" string="Name" filter_domain="[('name','ilike',self)]"/>
+                    <field name="code" string="Code" filter_domain="[('code','ilike',self)]"/>                   
+                </search>
+            </field>
+        </record>
+
+        <!-- Tree View for Programs -->
+        <record id="view_dsl_study_country_institute_program_tree" model="ir.ui.view">
+            <field name="name">dsl.study.country.institute.program.tree</field>
+            <field name="model">dsl.study.country.institute.program</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="number"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View for Programs -->
+        <record id="view_dsl_study_country_institute_program_form" model="ir.ui.view">
+            <field name="name">dsl.study.country.institute.program.form</field>
+            <field name="model">dsl.study.country.institute.program</field>
+            <field name="arch" type="xml">
+                <form string="Program">
+                    <field name="active" invisible="1"/>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box" >
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive" invisible="not active">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Archive</span>
+                                </div>
+                            </button>
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-check" invisible="active">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Active</span>
+                                </div>
+                            </button>
+                        </div>
+                        <group>
+                                <field name="code" readonly="1" style="font-size: min(0.75vw, 1.4rem);"/>                                 
+                                <field name="name" placeholder="Type.." required="True" style="font-size: min(3vw, 2rem);"/>
+                            </group>
+                            <group col ="2">
+                            <group>
+                                <field name="number"/>
+                                <field name="is_tuition_fee"/>
+                                <field name="tuition_fee" invisible="not is_tuition_fee"/>                                
+                            </group>
+                            <group>    
+                                <field name="institute_id"/>
+                                <field name="is_admission_fee"/>
+                                <field name="admission_fee" invisible="not is_admission_fee"/>
+                            </group>                           
+                        </group>
+                        <notebook>
+                            <page string="Notes">
+                                <field name="note" string="Description" placeholder="type..."/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action View for Programs -->
+        <record id="action_dsl_study_country_institute_program" model="ir.actions.act_window">
+            <field name="name">Programs</field>
+            <field name="res_model">dsl.study.country.institute.program</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No Programs Found! Click "Create" to add a new program.
+                </p>
+            </field>
+        </record>
+    </data>    
+</odoo>

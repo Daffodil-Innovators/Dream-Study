@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Search View -->
+        <record id="dsl_study_country_institute_search_view" model="ir.ui.view">
+            <field name="name">dsl.study.country.institute.view</field>
+            <field name="model">dsl.study.country.institute</field>
+            <field name="arch" type="xml">
+                <search string="DSL study Institute">
+                    <field name="name" string="Name" filter_domain="[('name','ilike',self)]"/>
+                    <field name="code" string="Code" filter_domain="[('code','ilike',self)]"/>
+                    <field name="type" string="Type" filter_domain="[('type','ilike',self)]"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Tree View for Institutes -->
+        <record id="view_dsl_study_country_institute_tree" model="ir.ui.view">
+            <field name="name">dsl.study.country.institute.tree</field>
+            <field name="model">dsl.study.country.institute</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="code"/>
+                    <field name="phone"/>
+                    <field name="mobile"/>
+                    <field name="email"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View for Institutes -->
+        <record id="view_dsl_study_country_institute_form" model="ir.ui.view">
+            <field name="name">dsl.study.country.institute.form</field>
+            <field name="model">dsl.study.country.institute</field>
+            <field name="arch" type="xml">
+                <form string="Institute">
+                    
+                        <group >
+                            <group>
+                                <field name="code" readonly="1" style="font-size: min(0.75vw, 1.4rem);"/>                                  
+                                <field name="name" placeholder="type.." required="True" style="font-size: min(3vw, 2rem);"/>
+                            </group>
+                            <group style="text-align:right; width:180px;">
+                                <field name="logo" widget="image" nolabel="1" />
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="type"/>
+                                <field name="country_id"/>
+                                <field name="phone"/>
+                            </group>
+                            <group>
+                                <field name="mobile"/>
+                                <field name="email"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <label for="street" string="Address"/>
+                                <div class="o_address_format">
+                                    <field name="street" placeholder="Street..." class="o_address_street"/>
+                                    <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                    <field name="city" placeholder="City" class="o_address_city"/>
+                                    <field name="state_id" class="o_address_state"
+                                        placeholder="State"
+                                        options="{'no_open': True, 'no_quick_create': True}"
+                                        context="{'default_country_id': country_id}"/>
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                </div>                                
+                            </group>
+                            <group>
+                                <field name="website"/>
+                                <field name="google_map"/>                                
+                            </group>
+                        </group>
+
+                    <notebook>
+                        <page string="Programs">
+                            <field name="program_ids"/>
+                        </page>
+                            <page string="Images">
+                                <field name="image_ids" mode="kanban">
+                                    <kanban>
+                                        <field name="id"/>
+                                        <field name="datas" widget="image"/>
+                                        <field name="name"/>
+                                            <templates>
+                                                <t t-name="kanban-box">
+                                                        <div t-attf-class="oe_kanban_global_click">
+                                                            <div class="o_attachment_image">
+                                                                <img t-att-src="kanban_image('ir.attachment', 'datas', record.id.raw_value)"/>
+                                                            </div>
+                                                            <div class="oe_kanban_details">
+                                                                <field name="name"/>
+                                                            </div>
+                                                        </div>
+                                                    </t>
+                                            </templates>
+                                    </kanban>
+                                        <form>
+                                            <group>
+                                                <group>
+                                                    <field name="datas" widget="image" required="1"/>
+                                                    <field name="name" string="Image Name"/>
+                                                    <!-- Add other ir.attachment fields if needed -->
+                                                </group>
+                                            </group>
+                                        </form>
+                                </field>
+                            </page>
+                        <page string="Notes">
+                            <field name="note"/>
+                        </page>
+                    </notebook>                 
+                </form>
+            </field>
+        </record>
+
+    <!-- actions opening views on models -->
+        <record id="action_dsl_study_country_institute" model="ir.actions.act_window">
+            <field name="name">Institutes</field>
+            <field name="res_model">dsl.study.country.institute</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No Institutes Found! Click "Create" to add a new institute.
+                </p>
+            </field>
+        </record>
+    </data>    
+</odoo>

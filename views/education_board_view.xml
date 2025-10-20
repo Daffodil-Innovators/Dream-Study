@@ -1,0 +1,45 @@
+<odoo>
+    <!-- Tree view -->
+    <record id="view_education_board_tree" model="ir.ui.view">
+        <field name="name">dsl.study.education.board.tree</field>
+        <field name="model">dsl.study.education.board</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <!-- <field name="country_id"/> -->
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view -->
+    <record id="view_education_board_form" model="ir.ui.view">
+        <field name="name">dsl.study.education.board.form</field>
+        <field name="model">dsl.study.education.board</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <!-- <field name="country_id"/> -->
+                        <field name="result_ids">
+                            <tree>
+                                <field name="exam_type" />
+                                <field name="student_id" />
+                                <field name="grade" />
+                                <field name="passing_year" />
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_education_board" model="ir.actions.act_window">
+        <field name="name">Education Boards</field>
+        <field name="res_model">dsl.study.education.board</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

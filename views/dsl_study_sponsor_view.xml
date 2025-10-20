@@ -1,0 +1,107 @@
+<odoo>
+    <data>
+        <!-- Search view -->
+        <record id="dsl_study_sponsor_search_view" model="ir.ui.view">
+            <field name="name">dsl.study.sponsor.search</field>
+            <field name="model">dsl.study.sponsor</field>
+            <field name="arch" type="xml">
+                <search string="Sponsors">
+                    <field name="code" string="Code"/>
+                    <field name="name" string="Sponsor Name" filter_domain="[('name','ilike',self)]" />
+                    <field name="relation" string="Relation"
+                        filter_domain="[('relation','ilike',self)]" />
+                    <field name="phone" string="Phone" filter_domain="[('phone','ilike',self)]" />
+                    <field name="mobile" string="Mobile" filter_domain="[('mobile','ilike',self)]" />
+                    <!-- <filter string="Active" name="active_filter" domain="[('active','=',True)]"
+                        default="1" /> -->
+                </search>
+            </field>
+        </record>
+        <!-- Tree view -->
+        <record id="view_sponsor_tree" model="ir.ui.view">
+            <field name="name">dsl.study.sponsor.tree</field>
+            <field name="model">dsl.study.sponsor</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name" />
+                    <field name="relation" />
+                    <field name="phone" />
+                    <field name="mobile" />
+                    <field name="email" />
+                    <field name="company_id" />
+                    <field name="student_id" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view -->
+        <record id="view_sponsor_form" model="ir.ui.view">
+            <field name="name">dsl.study.sponsor.form</field>
+            <field name="model">dsl.study.sponsor</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="active" invisible="1" />
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button"
+                                icon="fa-archive" invisible="not active">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Archive</span>
+                                </div>
+                            </button>
+                            <button name="toggle_active" type="object" class="oe_stat_button"
+                                icon="fa-check" invisible="active">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Active</span>
+                                </div>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code" readonly="1" />
+                                <field name="name" />
+                            </group>
+                            <group style="text-align:center; width:180px;">
+                                <field name="photo" widget="image" nolabel="1"
+                                    style="width:110px; height:100px;border:1px solid #ccc; border-radius:4px;" />
+                            </group>
+                        </group>
+                        <group cols="2">
+                        <group>
+                            
+                            <field name="relation" />
+                            <field name="phone" />
+                            <field name="mobile" />
+                            <field name="email" />
+                            <field name="student_id" />
+                            <field name="company_id" />
+                            <field name="note" />
+                        </group>
+                        <group>
+                            <field name="occupation" />
+                            <field name="date_of_birth" />
+                            <field name="age" />
+                            <field name="nationality" />
+                            <field name="blood_group" />
+                        </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_dsl_sponsor" model="ir.actions.act_window">
+            <field name="name">Sponsors</field>
+            <field name="res_model">dsl.study.sponsor</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menu -->
+        <!-- <menuitem id="menu_dsl_sponsor" name="Sponsors" parent="menu_dsl_study_root"
+            action="action_dsl_sponsor" active="True"
+            sequence="3" /> -->
+
+    </data>
+</odoo>

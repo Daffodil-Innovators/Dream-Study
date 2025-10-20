@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- Tree View -->
+        <record id="view_dsl_study_follow_up_tree" model="ir.ui.view">
+            <field name="name">dsl.study.follow.up.tree</field>
+            <field name="model">dsl.study.follow.up</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="activity_type"/>
+                    <field name="schedule_date"/>
+                    <field name="active" invisible="1"/>
+                    <field name="note"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_dsl_study_follow_up_form" model="ir.ui.view">
+            <field name="name">dsl.study.follow.up.form</field>
+            <field name="model">dsl.study.follow.up</field>
+            <field name="arch" type="xml">
+                <form string="Study Country">
+                    <field name="active" invisible="1"/>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive" invisible="not active">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Archive</span>
+                                </div>
+                            </button>
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-check" invisible="active">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Active</span>
+                                </div>
+                            </button>
+                        </div>
+                            <group>
+                                <field name="schedule_date"/>                                 
+                                <field name="note" placeholder="Type.."/>
+                            </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

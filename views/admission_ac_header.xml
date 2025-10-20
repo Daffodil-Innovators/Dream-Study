@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="website_template_header" inherit_id="website.layout"  name="header_one">
+            <xpath expr="//header" position="replace">
+                <link href="/dsl_study_core/static/src/css/outfit.css" rel="stylesheet"/>
+                
+                <section id="website_template_custom_header">
+                    <!-- Safe check: only search if model exists -->
+                    <t t-set="admission_ac_website_setting" 
+                       t-value="request.env.get('admission.ac.website.setting.table') and request.env['admission.ac.website.setting.table'].sudo().search([], limit=1) or False"/>
+
+                    <style>
+                        .dropdown:hover .dropdown-menu {
+                            display: block;
+                        }
+                    </style>
+
+                    <div class="header-first">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4 col-12 head-one">
+                                    <p class="pt-3 text-light">A Concern of Daffodil Family</p>
+                                </div>
+                                <div class="col-md-4 col-12 head-two">
+                                    <div class="d-flex justify-content-center pt-3 gap-3 head-two-menu">
+                                        <t t-if="
+                                         and admission_ac_website_setting.email">
+                                            <a t-att-href="'mailto:' + admission_ac_website_setting.email" class="text-light">
+                                                <i class="fa fa-envelope"></i> <t t-esc="admission_ac_website_setting.email"/>
+                                            </a>
+                                        </t>
+                                        <t t-if="admission_ac_website_setting and admission_ac_website_setting.phone">
+                                            <a t-att-href="'tel:' + admission_ac_website_setting.phone" class="text-light">
+                                                <i class="fa fa-phone"></i> <t t-esc="admission_ac_website_setting.phone"/>
+                                            </a>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 col-12"></div>
+                                <div class="col-md-2 col-12 head-three">
+                                    <div class="d-flex justify-content-center pt-3 gap-3 text-end">
+                                        <t t-if="admission_ac_website_setting and admission_ac_website_setting.facebook">
+                                            <a t-att-href="admission_ac_website_setting.facebook" class="text-light">
+                                                <i class="fa fa-facebook-square fs-4" aria-hidden="true"></i>
+                                            </a>
+                                        </t>
+                                        <t t-if="admission_ac_website_setting and admission_ac_website_setting.instagram">
+                                            <a t-att-href="admission_ac_website_setting.instagram" class="text-light">
+                                                <i class="fa fa-instagram fs-5"></i>
+                                            </a>
+                                        </t>
+                                        <t t-if="admission_ac_website_setting and admission_ac_website_setting.youtube">
+                                            <a t-att-href="admission_ac_website_setting.youtube" class="text-light">
+                                                <i class="fa fa-youtube fs-5"></i>
+                                            </a>
+                                        </t>
+                                        <t t-if="admission_ac_website_setting and admission_ac_website_setting.linkedin">
+                                            <a t-att-href="admission_ac_website_setting.linkedin" class="text-light">
+                                                <i class="fa fa-linkedin fs-5"></i>
+                                            </a>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <header class="shadow border-0">
+                        <div class="container">
+                            <nav class="navbar navbar-expand-lg align-items-center">
+                                <a class="navbar-brand" t-attf-href="/">
+                                    <t t-if="admission_ac_website_setting and admission_ac_website_setting.logo_header">
+                                        <img t-attf-src="data:image/png;base64,{{ admission_ac_website_setting.logo_header.decode('utf-8') }}" alt="Logo"/>
+                                    </t>
+                                </a>
+                                <button class="navbar-toggler fas-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                                    <i class="fa fa-bars"></i>
+                                </button>
+                                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                                    <div class="offcanvas-header">
+                                        <button type="button" class="btn-close float-right" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                    </div>
+                                    <div class="offcanvas-body">
+                                        <ul class="navbar-nav mx-auto mb-2 mb-lg-0 justify-content-center align-items-center">
+                                            <li class="nav-item pt-2">
+                                                <a class="nav-link" t-attf-href="/">Home</a>
+                                            </li>
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle mt-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Study Abroad</a>
+                                                <ul class="dropdown-menu" style="z-index:100!important">
+                                                    <li><a class="dropdown-item" t-attf-href="/programs">Courses</a></li>
+                                                    <hr class="mt-0 mb-0"/>
+                                                    <li><a class="dropdown-item" t-attf-href="/destination">Destinations</a></li>
+                                                    <hr class="mt-0 mb-0"/>
+                                                    <li><a class="dropdown-item" t-attf-href="/scholarship">Scholarships</a></li>
+                                                </ul>
+                                            </li>
+                                            <!-- Add other menu items here as needed -->
+                                        </ul>
+
+                                        <!-- Logged in user menu -->
+                                        <t t-if="request.session.uid">
+                                            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 justify-content-center align-items-center">
+                                                <li class="nav-item me-3 pt-2">
+                                                   <a href="/get_notifications"><i class="fa fa-bell text-primary" aria-hidden="true"></i></a>
+                                                </li>
+                                                <li class="nav-item dropdown">
+                                                    <a class="nav-link dropdown-toggle mt-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <t t-esc="request.env.user.name[:15]"/>...
+                                                    </a>
+                                                    <ul class="dropdown-menu" style="z-index:100!important">
+                                                        <li><a class="dropdown-item" t-attf-href="/my/home/dashboard">Dashboard</a></li>
+                                                        <hr class="mt-0 mb-0"/>
+                                                        <li><a class="dropdown-item" t-attf-href="/web/session/logout">Logout</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </t>
+                                        <t t-else="">
+                                            <div class="d-flex align-items-center justify-content-center gap-2">
+                                                <a t-attf-href="/web/login" class="btn text-light">Login</a>
+                                                <a t-attf-href="/register" class="btn text-light">Register</a>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </header>
+                </section>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var dropdowns = document.querySelectorAll('.navbar-nav .dropdown');
+
+                        dropdowns.forEach(function (dropdown) {
+                            dropdown.addEventListener('mouseover', function () {
+                                var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                                if (dropdownMenu) {
+                                    dropdown.classList.add('show');
+                                    dropdownMenu.classList.add('show');
+                                }
+                            });
+
+                            dropdown.addEventListener('mouseout', function () {
+                                var dropdownMenu = dropdown.querySelector('.dropdown-menu');
+                                if (dropdownMenu) {
+                                    dropdown.classList.remove('show');
+                                    dropdownMenu.classList.remove('show');
+                                }
+                            });
+                        });
+                    });
+                </script>
+            </xpath>
+        </template>
+    </data>
+</odoo>

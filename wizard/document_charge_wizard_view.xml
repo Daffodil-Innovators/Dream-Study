@@ -1,0 +1,19 @@
+<odoo>
+    <record id="view_document_charge_wizard_form" model="ir.ui.view">
+        <field name="name">document.charge.wizard.form</field>
+        <field name="model">document.charge.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Document Charge">
+                <group>
+                    <field name="student_id" readonly="1"/>
+                    <field name="amount"/>
+                    <field name="description"/>
+                </group>
+                <footer>
+                    <button string="Create Invoice" type="object" name="action_confirm" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

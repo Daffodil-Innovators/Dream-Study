@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Search View -->
+        <record id="dsl_study_country_search_view" model="ir.ui.view">
+            <field name="name">dsl.study.country.view</field>
+            <field name="model">dsl.study.country</field>
+            <field name="arch" type="xml">
+                <search string="DSL study Institute">
+                    <field name="name" string="Name" filter_domain="[('name','ilike',self)]"/>
+                    <field name="code" string="Code" filter_domain="[('code','ilike',self)]"/>
+                    <field name="responsible_person" string="Responsible Person" filter_domain="[('responsible_person','ilike',self)]"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="view_dsl_study_country_tree" model="ir.ui.view">
+            <field name="name">dsl.study.country.tree</field>
+            <field name="model">dsl.study.country</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="country_id"/>
+                    <field name="responsible_person"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_dsl_study_country_form" model="ir.ui.view">
+            <field name="name">dsl.study.country.form</field>
+            <field name="model">dsl.study.country</field>
+            <field name="arch" type="xml">
+                <form string="Study Country">
+                    <field name="active" invisible="1"/>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive" invisible="not active">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Archive</span>
+                                </div>
+                            </button>
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-check" invisible="active">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Active</span>
+                                </div>
+                            </button>
+                        </div>
+                        <field name="code" readonly="1" style="font-size: min(0.75vw, 1.4rem);"/>  
+                            <group>                                                              
+                                <field name="name" placeholder="Type.." required="True" style="font-size: min(3vw, 2rem);"/>
+                            </group>
+
+                            <group col="2">
+                            <group>
+                                <field name="is_security_money"/>
+                                <field name="security_money" invisible="not is_security_money"/>
+                                <field name="company_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="country_id"/>
+                                <field name="responsible_person" widget="many2many_tags"/>
+                                <field name="institute_ids" widget="many2many_tags"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Notes">
+                                <field name="note" placeholder="Type"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action View -->
+        <record id="action_dsl_study_country" model="ir.actions.act_window">
+            <field name="name">Countries</field>
+            <field name="res_model">dsl.study.country</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No country Found! Click "Create" to add a new program.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

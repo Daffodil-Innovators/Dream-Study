@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- Search View -->
+        <!-- <record id="dsl_study_source_search_view" model="ir.ui.view">
+            <field name="name">dsl.study.source.view</field>
+            <field name="model">dsl.study.source</field>
+            <field name="arch" type="xml">
+                <search string="DSL study Institute">
+                    <field name="name" string="Name" filter_domain="[('name','ilike',self)]"/>
+                    <field name="code" string="Code" filter_domain="[('code','ilike',self)]"/>
+                </search>
+            </field>
+        </record> -->
+
+        <!-- Tree View -->
+        <record id="view_dsl_study_source_tree" model="ir.ui.view">
+            <field name="name">dsl.study.source.tree</field>
+            <field name="model">dsl.study.source</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="active"/>
+                    <field name="note"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_dsl_study_source_form" model="ir.ui.view">
+            <field name="name">dsl.study.source.form</field>
+            <field name="model">dsl.study.source</field>
+            <field name="arch" type="xml">
+                <form string="Study Source">
+                    <field name="active" invisible="1"/>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive" invisible="not active">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Archive</span>
+                                </div>
+                            </button>
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-check" invisible="active">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Active</span>
+                                </div>
+                            </button>
+                        </div>
+                            <group>
+                                <field name="code" readonly="1" style="font-size: min(0.75vw, 1.4rem);"/>                                 
+                                <field name="name" placeholder="Type.." required="True" style="font-size: min(3vw, 2rem);"/>
+                            </group>
+
+                            <group col="2">
+                            <group>
+                                <field name="note" placeholder="Type..."/>
+                            </group>
+                            </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="dsl_study_source_action" model="ir.actions.act_window">
+            <field name="name">Source</field>
+            <field name="res_model">dsl.study.source</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No Follow Ups Found! Click "Create" to add a new follow up.
+                </p>
+            </field>
+        </record>
+    </data>                       
+</odoo>

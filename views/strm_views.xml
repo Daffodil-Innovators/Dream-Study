@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree View -->
+        <record id="strm_tree_view" model="ir.ui.view">
+            <field name="name">strm.tree</field>
+            <field name="model">crm.lead</field>
+            <field name="arch" type="xml">
+                <tree> 
+                    <field name="name"/>     
+                    <field name="admission_officer_id"/>
+                    <field name="preferred_country_id"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="strm_form_view" model="ir.ui.view">
+            <field name="name">strm.form</field>
+            <field name="model">crm.lead</field>
+            <field name="arch" type="xml">
+                <form class="o_form_sheet strm_form">
+                    <header>
+                        <!-- Ribbons at top -->
+                        
+                        <!-- Status Bar -->
+                        <field name="state" widget="statusbar" nolabel="1" options="{'clickable': '1'}"/>
+
+                        <!-- Workflow Buttons -->
+                        <field name="is_student_created" invisible="True"/>
+                        <field name="is_not_interested" invisible="True"/>
+                        <button name="create_student" string="Create Student" type="object" class="btn-primary" invisible ="is_student_created or is_not_interested"/>
+                        <button name="action_re_draft" type="object" string="Re-Draft" class="btn-secondary"/>
+
+                        <button name="action_office_visit" type="object" string="Office Visit"
+                            class="btn-primary"
+                            invisible="state != 'new'"/>
+
+                        <button name="action_file_open" type="object" string="File Open"
+                            class="btn-primary"
+                            invisible="state != 'office_visit'"/>
+
+                        <button name="action_inprogress" type="object" string="In Progress"
+                            class="btn-primary"
+                            invisible="state != 'file_open'"/>
+
+                        <button name="action_won" type="object" string="Won"
+                            class="btn-success"
+                            invisible="state != 'inprogress'"/>
+
+                        <button name="action_not_interested" type="object" string="Not Interested"
+                            class="btn-danger"
+                            invisible="is_not_interested or state == 'won'"/>
+                        
+                    </header>
+                    <field name="active" invisible="1"/>
+                    <sheet>
+
+                        <widget name="web_ribbon" title="WON" bg_color="text-bg-success" invisible="state != 'won'"/>
+                        <widget name="web_ribbon" title="LOST" bg_color="text-bg-danger" invisible="state != 'not_interested'"/>
+
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive" invisible="not active">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Archive</span>
+                                </div>
+                            </button>
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-check" invisible="active">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Active</span>
+                                </div>
+                            </button>
+                            <button name="%(action_dsl_student)d"
+                                    type="action"
+                                    class="oe_stat_button"
+                                    icon="fa-user">
+                                <div class="o_stat_info">
+                                    <field name="total_student_count" class="o_stat_value"/>
+                                    <span class="o_stat_text">Students</span>
+                                </div>
+                            </button>
+                        </div>
+                            <group>
+                            <group>
+                                <div
+                                    style="font-size:2em; font-weight:bold; margin-bottom:10px; display:flex; gap:10px; align-items:center;">
+                                    <field name="first_name" placeholder="First Name"
+                                        style="font-size:1em; width:330px;" />
+                                    <field name="middle_name" placeholder="Middle Name"
+                                        style="font-size:1em; width:330px;" />
+                                    <field name="last_name" placeholder="Last Name"
+                                        style="font-size:1em; width:330px;" />
+                                </div>
+                            </group>
+                            <group style="text-align:center; width:180px;">
+                                <field name="image" widget="image" nolabel="1"
+                                    style="width:110px; height:100px;border:1px solid #ccc; border-radius:4px;" />
+                            </group>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="student_id" placeholder="Enter student ID"/>
+                                    <label for="street_page_lead" string="Contact"/>
+                                    <div class="o_address_format">
+                                        <field name="street" id="street_page_lead" placeholder="Street..." class="o_address_street"/>
+                                        <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                        <field name="city" placeholder="City" class="o_address_city"/>
+                                        <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}'/>
+                                        <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                        <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+                                    </div>
+                                    <field name="website" widget="url" placeholder="e.g. https://www.odoo.com"/>
+                                    <field name="is_student_created"/>
+                                </group>
+                                <group>
+                                    <field name="title" placeholder="Title" domain="[]" options='{"no_open": True}'/>
+                                    <field name="mobile" placeholder="015686..."/>
+                                    <field name="email_from" id="email_from_group_lead_info" string="Email" widget="email"/>
+                                    <field name="phone" id="phone_group_lead_info" widget="phone"/>
+                                    <field name="how_did_you_hear"/>
+                                </group>
+                            </group>
+
+                        <notebook>
+                            <page string="Personal">
+                                    <group string="Contact Info">
+                                        <field name="gender"/>
+                                        <field name="date_of_birth"/>
+                                        <field name="age" readonly="1"/>
+                                        <field name="nationality" />
+                                        <field name="blood_group" />
+                                        <field name="current_profession"/>
+                                    </group>
+                            </page>
+                            <page string="Office">
+                                <group col="2">
+                                    <group string="Study Info">
+                                        <field name="preferred_country_id" widget="many2many_tags"/>
+                                        <field name="admission_officer_ids" invisible="1"/>
+                                        <field name="admission_officer_id" widget="many2many_tags"/>
+                                        <field name="interested_degree"/>
+                                        <field name="plan_to_study"/>
+                                        
+                                </group>
+                                    <group string="Language Info"> 
+                                        <field name="lang"/>
+                                        <field name="english_proficiency"/>
+                                        <field name="counseling_mode"/>
+                                        <field name="counselor_id"/>
+                                    </group>  
+                                </group>
+                                <group string="Team and Process">
+                                    <group >
+                                    <field name="study_source_id"/>
+                                    <field name="team_id"/>
+                                <field name="sponsor"/>
+                                <field name="company_id" invisible="1"/>
+                                </group>
+                                <group >
+                                    <field name="office_visit_date"/>
+                                    <field name="file_open_date"/>
+                                    <field name="done_date"/>
+                                    <field name="cancel_date"/>
+                                </group>
+                                </group>    
+                            </page>
+                            <page string="Follow Ups">
+                                <field name="follow_up_ids" widget="one2many_list" mode="tree,form">
+                                    <tree editable="bottom">
+                                        <field name="activity_type"/>
+                                        <field name="schedule_date"/>
+                                        <field name="note"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Document Checkbox">
+                                <field name="document_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="date"/>
+                                        <field name="document_type_id"/>
+                                        <field name="state"/>
+                                        <field name="note"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Internal Notes">
+                                <field name="note" placeholder="Type"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_strm_leads" model="ir.actions.act_window">
+            <field name="name">STRM Leads</field>
+            <field name="res_model">crm.lead</field>
+            <field name="view_mode">kanban,form,tree</field>
+            <field name="domain">[('is_strm', '=', True)]</field>
+            <field name="context">{'default_is_strm': True}</field>
+            <field name="view_ids" eval="[
+                (5,0,0),
+                (0,0,{'view_mode':'tree','view_id':ref('strm_tree_view')}),
+                (0,0,{'view_mode':'form','view_id':ref('strm_form_view')})
+            ]"/>
+        </record>
+    </data>
+</odoo>

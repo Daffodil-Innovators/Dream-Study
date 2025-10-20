@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Search view -->
+        <record id="dsl_study_address_search_view" model="ir.ui.view">
+            <field name="name">dsl.study.student.address.search</field>
+            <field name="model">dsl.study.student.address</field>
+            <field name="arch" type="xml">
+                <search string="Addresses">
+                    <field name="street" string="Street" filter_domain="[('street','ilike',self)]" />
+                    <field name="city" string="City" filter_domain="[('city','ilike',self)]" />
+                    <field name="state_id" string="State"
+                        filter_domain="[('state_id','ilike',self)]" />
+                    <field name="country_id" string="Country"
+                        filter_domain="[('country_id','ilike',self)]" />
+                    <!-- <filter string="Active" name="active_filter" domain="[('active','=',True)]"
+                        default="1" /> -->
+                </search>
+            </field>
+        </record>
+
+        <!-- Tree view -->
+        <record id="view_student_address_tree" model="ir.ui.view">
+            <field name="name">dsl.study.student.address.tree</field>
+            <field name="model">dsl.study.student.address</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code" />
+                    <field name="type" />
+                    <field name="street" />
+                    <field name="city" />
+                    <field name="state_id" />
+                    <field name="country_id" />
+                    <field name="zip" />
+                    <field name="student_id" widget="many2one" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view -->
+        <record id="view_student_address_form" model="ir.ui.view">
+            <field name="name">dsl.study.student.address.form</field>
+            <field name="model">dsl.study.student.address</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="type" nolabel="1" required="True" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="code" readonly="1" />
+                                <!-- <field name="type" /> -->
+                                <field name="street" />
+                                <field name="street2" />
+                            </group>
+                            <group>
+                                <field name="city" />
+                                <field name="state_id" />
+                                <field name="country_id" />
+                                <field name="zip" />
+                                <field name="student_id" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_student_address" model="ir.actions.act_window">
+            <field name="name">Student Addresses</field>
+            <field name="res_model">dsl.study.student.address</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Optional Menu -->
+        <!-- <menuitem id="menu_student_address" name="Addresses" parent="menu_dsl_study_root"
+            action="action_student_address"
+            sequence="5" /> -->
+    </data>
+</odoo>
