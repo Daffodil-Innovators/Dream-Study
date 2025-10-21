@@ -8,7 +8,6 @@ class DslStudyStudentDocumentLine(models.Model):
     # relation to Student
     student_id = fields.Many2one('dsl.study.student', string='Student', required=True)
     document_type_id = fields.Many2one('dsl.study.document.type', string='Document Type', required=True)
-    strm_id = fields.Many2one('crm.lead', string='Lead', required=True)
 
     # fields
     state = fields.Selection(

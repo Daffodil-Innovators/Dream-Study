@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form -->
+    <record id="dsl_study_agent_fees_form" model="ir.ui.view">
+        <field name="name">dsl.study.agent.fees.form</field>
+        <field name="model">dsl.study.agent.fees</field>
+        <field name="arch" type="xml">
+            <form string="Agent Fee">
+                <sheet>
+                    <group>
+                        <field name="agent_id"/>
+                        <field name="payment_date"/>
+                        <field name="amount"/>
+                        <field name="payment_method"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree -->
+    <record id="dsl_study_agent_fees_tree" model="ir.ui.view">
+        <field name="name">dsl.study.agent.fees.tree</field>
+        <field name="model">dsl.study.agent.fees</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="agent_id"/>
+                <field name="payment_date"/>
+                <field name="amount"/>
+                <field name="payment_method"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_dsl_study_agent_fees" model="ir.actions.act_window">
+        <field name="name">Agent Fees</field>
+        <field name="res_model">dsl.study.agent.fees</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

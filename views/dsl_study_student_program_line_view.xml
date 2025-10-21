@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Tree View -->
+        <record id="dsl_study_student_program_line_view" model="ir.ui.view">
+            <field name="name">dsl.study.student.program.line.tree</field>
+            <field name="model">dsl.study.student.program.line</field>
+            <field name="arch" type="xml">
+                <tree string="Student Program Lines">
+                    <field name="code" />
+                    <field name="student_id" />
+                    <field name="country_id" />
+                    <field name="institute_id" />
+                    <field name="program_id" />
+                    <field name="is_student_agree" />
+
+                    <!-- New Fields -->
+                    <field name="apply_state" />
+                    <field name="offer_letter_state" />
+                    <field name="tuition_fee_state" />
+                    <field name="final_offer_state" />
+
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="dsl_study_student_program_line_form" model="ir.ui.view">
+            <field name="name">dsl.study.student.program.line.form</field>
+            <field name="model">dsl.study.student.program.line</field>
+            <field name="arch" type="xml">
+                <form string="Student Program">
+                    <header>
+                        <!-- Status Bar -->
+                        <field name="state" widget="statusbar" nolabel="1"
+                            options="{'clickable': '1'}"
+                            statusbar_visible="draft,submitted,confirmed,applied,offer_letter,sponsor_and_document,tuition_fee,visa_processing,file_handover,done" />
+
+                        <!-- Action Buttons -->
+                        <button name="action_submit" string="Submit" type="object"
+                            class="btn-primary"
+                            invisible="state != 'draft'" />
+                        <button name="action_confirm" string="Confirm" type="object"
+                            class="btn-primary"
+                            invisible="state != 'submitted'" />
+                        <button name="action_applied" string="Applied" type="object"
+                            class="btn-primary"
+                            invisible="state != 'confirmed'" />
+                        <button name="action_offer_letter" string="Offer Letter" type="object"
+                            class="btn-primary"
+                            invisible="state != 'applied'" />
+                        <button name="action_sponsor_documents" string="Sponsor Document"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'offer_letter'" />
+                        <button name="action_tuition_fee" string="Tuition Fee" type="object"
+                            class="btn-primary"
+                            invisible="state != 'sponsor_and_document'" />
+                        <button name="action_visa_processing" string="Visa Processing" type="object"
+                            class="btn-primary"
+                            invisible="state != 'tuition_fee'" />
+                        <button name="action_file_handover" string="File Handover" type="object"
+                            class="btn-primary"
+                            invisible="state != 'visa_processing'" />
+                        <button name="action_done" string="Done" type="object"
+                            class="btn-primary"
+                            invisible="state != 'file_handover'" />
+                        <button name="action_cancel" string="Cancel" type="object"
+                            class="btn-danger"
+                            invisible="state == 'cancelled' or state == 'done'" />
+                    </header>
+
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code" readonly="1" />
+                                <field name="student_id" />
+                                <field name="country_id" />
+                                <field name="institute_id"
+                                    domain="[('country_id','=',country_id)]" />
+                                <field name="program_id"
+                                    domain="[('institute_id','=',institute_id)]" />
+                                <field name="is_student_agree" />
+                            </group>
+                            <group>
+
+                                <field name="state" readonly="1" />
+                                <field name="note" />
+                                <field name="active" />
+                            </group>
+                        </group>
+                        <!-- <field name="type" nolabel="1" required="True" widget="radio"
+                        options="{'horizontal': true}"/> -->
+                        <group string="Application Progress">
+                            <field name="apply_state" nolabel="0" required="True" widget="radio"
+                                options="{'horizontal': true}" />
+                            <field name="offer_letter_state" nolabel="0" required="True"
+                                widget="radio" options="{'horizontal': true}" />
+                            <field name="tuition_fee_state" nolabel="0" required="True"
+                                widget="radio" options="{'horizontal': true}" />
+                            <field name="final_offer_state" nolabel="0" required="True"
+                                widget="radio" options="{'horizontal': true}" />
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_dsl_study_student_program_line" model="ir.actions.act_window">
+            <field name="name">Student Program Lines</field>
+            <field name="res_model">dsl.study.student.program.line</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="dsl_study_student_program_line_view" />
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create the first student program line
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

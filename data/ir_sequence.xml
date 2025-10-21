@@ -61,7 +61,7 @@
             <field name="code">dsl.study.student</field>
             <field name="prefix">STU</field>
             <field name="padding">4</field>
-            <field name="company_id" eval="False" />
+            <field name="company_id" eval="False"/>
         </record>
 
 
@@ -71,7 +71,7 @@
             <field name="code">dsl.study.parent</field>
             <field name="prefix">PAR</field>
             <field name="padding">4</field>
-            <field name="company_id" eval="False" />
+            <field name="company_id" eval="False"/>
         </record>
         <!-- Sponsor Code Sequence -->
         <record id="seq_sponsor_code" model="ir.sequence">
@@ -79,7 +79,7 @@
             <field name="code">dsl.study.sponsor</field>
             <field name="prefix">SPN</field>
             <field name="padding">4</field>
-            <field name="company_id" eval="False" />
+            <field name="company_id" eval="False"/>
         </record>
 
         <!-- Address -->
@@ -98,6 +98,23 @@
             <field name="prefix">RES</field>
             <field name="padding">4</field>
         </record>
+
+        <!-- Agent code -->
+        <record id="seq_dsl_study_agent" model="ir.sequence">
+            <field name="name">DSL Study Agent</field>
+            <field name="code">dsl.study.agent</field>
+            <field name="prefix">AGT</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- program line -->
+        <!-- <record id="seq_program_code" model="ir.sequence">
+            <field name="name">Program Code</field>
+            <field name="code">dsl.study.student.program.line</field>
+            <field name="prefix">PRG</field>
+            <field name="padding">4</field>
+        </record> -->
 
 
     </data>

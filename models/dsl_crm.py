@@ -6,84 +6,16 @@ class DslCrm(models.Model):
     _inherit = 'crm.lead'
     _description = 'DSL CRM'
     
-            #Main Info
     name = fields.Char(string="Full Name", compute="_compute_name", store=True)
     first_name = fields.Char(string="First Name")
     middle_name = fields.Char(string="Middle Name")
     last_name = fields.Char(string="Last Name")
-    student_id = fields.Char(string="Student ID")
-    
-            #Personal Info
-    date_of_birth = fields.Date(string="Date of Birth")
-    age = fields.Integer(string="Age", compute="_compute_age", store=True)
-    gender = fields.Selection(
-        [("male", "Male"), ("female", "Female"), ("other", "Other")], string="Gender"
-    )
-    blood_group = fields.Selection(
-        [
-            ("a+", "A+"),
-            ("a-", "A-"),
-            ("b+", "B+"),
-            ("b-", "B-"),
-            ("ab+", "AB+"),
-            ("ab-", "AB-"),
-            ("o+", "O+"),
-            ("o-", "O-"),
-        ],
-        string="Blood Group",
-    )
-    nationality = fields.Many2one("res.country", string="Nationality")
-    current_profession = fields.Selection(
-        [
-            ('student', 'Student'), 
-            ('employed', 'Employed'), 
-            ('business', 'Business'),
-            ('freelance','Freelance')
-        ], 
-        string="Current Profession"
-    )
-    
-            #Office Info
+    active = fields.Boolean(default=True)
+    image = fields.Image(string="Image")
     preferred_country_id = fields.Many2many(
         'dsl.study.country', 
         string="Preferred Countries"
     )
-    admission_officer_id = fields.Many2many(
-        'res.users', 
-        string="Admission Officer",
-        domain="[('id', 'in', admission_officer_ids)]"  # Dynamic domain
-    )
-    interested_degree = fields.Selection(
-        [
-            ('foundation program', 'Foundation Program'), 
-            ('bachelors program', "Bachelor's Program"), 
-            ('masters program', "Master's Program"), 
-            ('phd program', 'Ph.D Program'),
-            ('credit transfer','Credit Transfer'),
-            ('internship','Internship'),
-            ('mobility program','Mobility Program(Training/Conference)')
-        ], 
-        string="Interested Degree"
-    )
-    plan_to_study = fields.Selection(
-        [
-            ('now', 'Now'), 
-            ('in 3 month', 'In 3 Months'), 
-            ('in 6 months', 'In 6 Months'),
-            ('in 1 year','In 1 Year'),
-            ('not decided yet','Not Decided Yet')
-        ], 
-        string="Plan to Study"
-    )
-    lang = fields.Selection(
-        [("en_us", "English (US)"), ("en_uk", "English (UK)")],
-        string="Preferred Language",
-    )
-    active = fields.Boolean(default=True)
-    image = fields.Image(string="Image")
-    mobile = fields.Char(string="Mobile")
-    
-    
     @api.model
     def create(self, vals):
         # If first_name / last_name exists but name is missing
@@ -110,8 +42,25 @@ class DslCrm(models.Model):
         [('in_person', 'In Person'), ('virtual', 'Virtual')], 
         string="Counseling Mode"
     )
-    
-    
+    plan_to_study = fields.Selection(
+        [
+            ('now', 'Now'), 
+            ('in 3 month', 'In 3 Months'), 
+            ('in 6 months', 'In 6 Months'),
+            ('in 1 year','In 1 Year'),
+            ('not decided yet','Not Decided Yet')
+        ], 
+        string="Plan to Study"
+    )
+    current_profession = fields.Selection(
+        [
+            ('student', 'Student'), 
+            ('employed', 'Employed'), 
+            ('business', 'Business'),
+            ('freelance','Freelance')
+        ], 
+        string="Current Profession"
+    )
     english_proficiency = fields.Selection(
         [
             ('ielts', 'IELTS'), 
@@ -124,7 +73,18 @@ class DslCrm(models.Model):
         ], 
         string="English Proficiency"
     )
-    
+    interested_degree = fields.Selection(
+        [
+            ('foundation program', 'Foundation Program'), 
+            ('bachelors program', "Bachelor's Program"), 
+            ('masters program', "Master's Program"), 
+            ('phd program', 'Ph.D Program'),
+            ('credit transfer','Credit Transfer'),
+            ('internship','Internship'),
+            ('mobility program','Mobility Program(Training/Conference)')
+        ], 
+        string="Interested Degree"
+    )
     sponsor = fields.Selection(
         [
             ('self','Self'),
@@ -136,7 +96,11 @@ class DslCrm(models.Model):
         ], 
         string="Sponsor"
     )
-    
+    admission_officer_id = fields.Many2many(
+        'res.users', 
+        string="Admission Officer",
+        domain="[('id', 'in', admission_officer_ids)]"  # Dynamic domain
+    )
     admission_officer_ids = fields.Many2many(
         'res.users',
         compute='_compute_admission_officer_ids',
@@ -149,7 +113,7 @@ class DslCrm(models.Model):
     done_date = fields.Datetime(string="Done Date")
     cancel_date = fields.Datetime(string="Cancel Date")
     state = fields.Selection(
-        [   ("new", "New"),
+        [   ("new", "new"),
             ("office_visit", "Office Visit"),
             ("file_open", "File Open"),
             ("inprogress", "In Progress"),
@@ -174,9 +138,7 @@ class DslCrm(models.Model):
         compute='_compute_total_student_count'
     )
     study_source_id = fields.Many2one('dsl.study.source', string="Study Source")
-    document_line_ids = fields.One2many(
-        "dsl.study.student.document.line", "student_id", string="Documents"
-    )
+    
     @api.depends('preferred_country_id')
     def _compute_admission_officer_ids(self):
         for lead in self:
@@ -199,23 +161,7 @@ class DslCrm(models.Model):
     @api.onchange('contact_name')
     def _onchange_contact_name(self):
         if self.contact_name:
-            self.name = self.contact_name 
-            
-    @api.depends("date_of_birth")
-    def _compute_age(self):
-        for record in self:
-            if record.date_of_birth:
-                today = date.today()
-                record.age = (
-                    today.year
-                    - record.date_of_birth.year
-                    - (
-                        (today.month, today.day)
-                        < (record.date_of_birth.month, record.date_of_birth.day)
-                    )
-                )
-            else:
-                record.age = 0
+            self.name = self.contact_name    
             
     def create_student(self):
         student_obj = self.env['dsl.study.student'] 
@@ -229,8 +175,6 @@ class DslCrm(models.Model):
                 'mobile': rec.phone,
                 'email': rec.email_from if hasattr(rec, 'email_from') else rec.email,
                 })
-            for line in rec.document_line_ids:
-                line.strm_id = student.id
             rec.is_student_created = True
         return {'type': 'ir.actions.client', 'tag': 'reload'} 
     

@@ -15,6 +15,7 @@ class DslStudyStudent(models.Model):
     _name = "dsl.study.student"
     _description = "Student"
 
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     # status bar
     state = fields.Selection(
         [
@@ -63,6 +64,7 @@ class DslStudyStudent(models.Model):
         [("en_us", "English (US)"), ("en_uk", "English (UK)")],
         string="Preferred Language",
     )
+    first_lang= fields.Many2one("res.lang", string="First Language")
 
     # Contact Info
     phone = fields.Char(string="Phone")
@@ -127,9 +129,12 @@ class DslStudyStudent(models.Model):
         string="Results",
     )
 
+    # ------------------------------relations---------------------------------
+
     # System Relations
     user_id = fields.Many2one("res.users", string="User")
     partner_id = fields.Many2one("res.partner", string="Partner")
+    strm_id= fields.Many2one("crm.lead", string="STRM Stage" ,ondelete="set null")
 
     # Invoice / Document charge relations
     document_charge_id = fields.Many2one(
@@ -144,9 +149,7 @@ class DslStudyStudent(models.Model):
         help="All invoices related to this student (document charges etc.).",
     )
 
-    move_count = fields.Integer(
-        string="Invoices", compute="_compute_move_count"
-    )
+    move_count = fields.Integer(string="Invoices", compute="_compute_move_count")
 
     company_currency_id = fields.Many2one(
         "res.currency",
@@ -160,7 +163,7 @@ class DslStudyStudent(models.Model):
         "dsl.study.student.document.line", "student_id", string="Documents"
     )
 
-    # Admission Officers
+    # Admission Officers relation
     admission_officer_ids = fields.Many2many(
         "res.users",
         "dsl_student_officer_rel",  # relation table name
@@ -169,6 +172,13 @@ class DslStudyStudent(models.Model):
         string="Admission Officers",
         help="Assign one or more admission officers responsible for this student.",
     )
+
+    # Student Programs relation
+    program_ids = fields.One2many(
+        "dsl.study.student.program.line", "student_id", string="Program"
+    )
+
+    # ------------------------------relations end---------------------------------
 
     advance_payment = fields.Float(
         string="Advance Payment", help="Advance or security money amount."
@@ -191,6 +201,32 @@ class DslStudyStudent(models.Model):
 
     # Other Info
     student_id_string = fields.Char(string="Student ID")
+
+
+
+    #### LANGUAGES TESTS #####
+    language_test_line_ids = fields.One2many(comodel_name='language.test.data',
+                                             inverse_name='test_id',
+                                             tracking=True)
+
+
+    ######## GMAT TESTS ######
+    gmat_line_ids = fields.One2many(comodel_name='gmat', inverse_name='gmat_id',
+                                    tracking=True)
+
+
+    ######## GRE TESTS #######
+    gre_line_ids = fields.One2many(comodel_name='gre', inverse_name='gre_id',
+                                   tracking=True)
+
+
+    ######## VISA PERMIT #####
+    visa_line_ids = fields.One2many(comodel_name='visa.permit', inverse_name='visa_id',
+                                    tracking=True)
+    students_documents_line_ids = fields.One2many(comodel_name='dsl.study.student.document.line', inverse_name='student_id',
+                                    tracking=True)
+
+
 
     @api.depends("first_name", "middle_name", "last_name")
     def _compute_name(self):
@@ -218,7 +254,7 @@ class DslStudyStudent(models.Model):
     def create(self, vals):
         if vals.get("code", "New") == "New":
             vals["code"] = (
-                self.env["ir.sequence"].next_by_code("dsl.study.student.code") or "New"
+                self.env["ir.sequence"].next_by_code("dsl.study.student") or "New"
             )
         return super().create(vals)
 
@@ -247,6 +283,8 @@ class DslStudyStudent(models.Model):
     def action_set_to_draft(self):
         for rec in self:
             rec.state = "draft"
+
+
 
     def action_create_user(self):
         for rec in self:
@@ -294,17 +332,6 @@ class DslStudyStudent(models.Model):
             },
         }
 
-    # @api.constrains("email", "mobile", "first_name", "address_ids")
-    # def _check_required_fields(self):
-    #     for rec in self:
-    #         if not rec.first_name:
-    #             raise ValidationError(_(" Name is required."))
-    #         if not rec.email:
-    #             raise ValidationError(_("Email is required."))
-    #         if not rec.mobile:
-    #             raise ValidationError(_("Mobile number is required."))
-    #         if not rec.address_ids:
-    #             raise ValidationError(_("At least one address must be added."))
 
     def action_open_security_money(self):
         self.ensure_one()
@@ -418,3 +445,102 @@ class DslStudyStudent(models.Model):
                         {"student_id": rec.id, "type": "permanent", "active": True}
                     )
                     Address.create(vals)
+
+
+##########################
+#### LANGUAGES TESTS #####
+##########################
+class LanguageTestAll(models.Model):
+    _name = 'language.test.data'
+    _rec_name = 'language_test_type'
+    _order = 'id desc'
+
+    test_id = fields.Many2one(comodel_name='dsl.study.student')
+    student_id = fields.Char(string='Student ID')
+    language_test_type = fields.Many2one(comodel_name='language.test', string='Test Name')
+    reading = fields.Char(string='Reading')
+    listening = fields.Char(string='Listening')
+    speaking = fields.Char(string='Speaking')
+    writing = fields.Char(string='Writing')
+    total_score = fields.Char(string='Total Score')
+    date_of_exam = fields.Date(string='Date of Exam')
+    dont_have = fields.Boolean(string='I don\'t have this')
+    not_get_yet = fields.Boolean(string='Not get but I will in the future')
+    sl = fields.Char(string='SL', compute='_compute_sl')
+
+    def _compute_sl(self):
+        for record in self:
+            record.sl = self.search_count([('id', '<=', record.id)])
+
+# language test model
+class LanguageTest(models.Model):
+    _name = 'language.test'
+    _rec_name = 'test_name'
+
+    test_name = fields.Char(string='Test Name', required=True)
+
+##########################
+######## GMAT TESTS ######
+##########################
+class LanguageGmat(models.Model):
+    _name = 'gmat'
+    _rec_name = 'student_id'
+
+    gmat_id = fields.Many2one(comodel_name='dsl.study.student')
+    student_id = fields.Char(string='Student ID')
+    total_score = fields.Float(string='Total Score', )
+    rank_of_total_scores = fields.Float(string='Rank Of Total Scores')
+    verbal_score = fields.Float(string='Verbal Score')
+    verbal_rank = fields.Float(string='Verbal Rank')
+    quantitative_scores = fields.Float(string='Quantitative Score')
+    quantitative_rank = fields.Float(string='Quantitative Rank')
+    awa_rank = fields.Float(string='AWA Rank')
+    awa_score = fields.Float(string='AWA Score')
+    date_of_exam = fields.Date(string='Date of Exam', )
+
+
+##########################
+######## GRE TESTS #######
+##########################
+class LanguageGre(models.Model):
+    _name = 'gre'
+    _rec_name = 'student_id'
+
+    gre_id = fields.Many2one(comodel_name='dsl.study.student')
+    student_id = fields.Char(string='Student ID')
+    total_score = fields.Float(string='Total Score')
+    rank_of_total_scores = fields.Float(string='Rank Of Total Scores')
+    verbal_score = fields.Float(string='Total Score')
+    verbal_rank = fields.Float(string='Verbal Rank')
+    quantitative_scores = fields.Float(string='Quantitative Score')
+    quantitative_rank = fields.Float(string='Quantitative Rank')
+    awa_rank = fields.Float(string='AWA Rank')
+    awa_score = fields.Float(string='AWA Score')
+    date_of_exam = fields.Date(string='Date of Exam', )
+
+
+##########################
+######## VISA PERMIT #######
+##########################
+class VisaPermit(models.Model):
+    _name = 'visa.permit'
+    _rec_name = 'have_refused_visa'
+    _order = 'id desc'
+
+    visa_id = fields.Many2one(comodel_name='dsl.study.student')
+    student_id = fields.Char(string='Student ID')
+    have_refused_visa = fields.Selection([
+        ('yes', 'Yes'),
+        ('no', 'No')], string='Have you been refused a visa from Canada, USA, or UK?')
+
+    valid_study_permit_visa_1 = fields.Many2many(comodel_name='visa.type',
+                                                 string='Which valid study permit or visa do you have?', required=True)
+
+    more_information = fields.Text(
+        string='Please provide more information about your current study permit/visa and part refusals if any')
+
+    sl = fields.Char(string='SL', compute='_compute_sl')
+
+    def _compute_sl(self):
+        for record in self:
+            record.sl = self.search_count([('id', '<=', record.id)])
