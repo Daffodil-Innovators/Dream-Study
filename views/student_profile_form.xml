@@ -1,123 +1,195 @@
 <odoo>
     <template id="student_profile_form" name="Student Profile Form">
         <t t-call="portal.portal_layout">
-        <!-- Import Material Icons -->
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
 
-        <div style="min-height:100vh; padding:50px 20px; font-family:Arial, sans-serif;">
-            <!-- Centered Card -->
-            <div style="max-width:700px; margin:auto; background:#ffffff; border-radius:15px; box-shadow:0 6px 20px rgba(0,0,0,0.1); padding:30px;">
-                
-                <!-- Header -->
-                <h1 style="text-align:center; color:#2c6b4f; margin-bottom:30px; font-size:28px; font-weight:bold;">
-                    <span class="material-icons" style="vertical-align:middle; color:black; font-size:36px;">account_circle</span>
-                    My Profile
-                </h1>
+            <div style="min-height:100vh; padding:30px 10px; font-family:Arial, sans-serif;">
+                <div style="max-width:700px; margin:auto; background:#ffffff; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1); padding:20px;">
 
-                <!-- Success Message -->
-                <t t-if="request.params.get('success')">
-                    <div style="background-color:#d4edda; color:#155724; padding:15px; border-radius:5px; text-align:center; margin-bottom:20px; font-weight:bold;">
-                        ✅ Your profile has been submitted successfully!
-                    </div>
-                </t>
+                    <h1 style="text-align:center; color:#2c6b4f; margin-bottom:20px; font-size:28px; font-weight:bold;">
+                        My Profile
+                    </h1>
 
-                <!-- Form -->
-                <form action="/my/profile/submit" method="POST" enctype="multipart/form-data" style="display:flex; flex-direction:column; gap:20px;">
-                    <!-- CSRF Token -->
+                    <t t-if="request.params.get('success')">
+                        <div style="background-color:#d4edda; color:#155724; padding:12px; border-radius:5px; text-align:center; margin-bottom:15px; font-weight:bold;">
+                            ✅ Your profile has been submitted successfully!
+                        </div>
+                    </t>
+
+                    <form action="/my/profile/submit" method="POST" enctype="multipart/form-data" style="display:flex; flex-direction:column; gap:15px;">
+                        <!-- CSRF Token -->
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                    <!-- Name -->
-                    <div style="display:flex; gap:10px; margin-bottom:15px;">
-                        <div style="flex:1;">
-                            <label style="font-weight:bold; display:flex; align-items:center; gap:6px;">
-                                <span class="material-icons" style="color:black; font-size:22px;">person</span> First Name
-                            </label>
-                            <input type="text" name="first_name" placeholder="First Name" required="required"
-                                style="width:100%; padding:12px; border:1px solid #ccc; border-radius:8px;"/>
+
+                        <!-- Name -->
+                        <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                            <div style="flex:1; min-width:150px;">
+                                <input type="text" name="first_name" t-att-value="student.first_name or ''" placeholder="First Name"
+                                    style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px;"/>
+                            </div>
+                            <div style="flex:1; min-width:150px;">
+                                <input type="text" name="middle_name" t-att-value="student.middle_name or ''" placeholder="Middle Name"
+                                    style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px;"/>
+                            </div>
+                            <div style="flex:1; min-width:150px;">
+                                <input type="text" name="last_name" t-att-value="student.last_name or ''" placeholder="Last Name"
+                                    style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px;"/>
+                            </div>
                         </div>
-                        <div style="flex:1;">
-                            <label style="font-weight:bold;">Middle Name</label>
-                            <input type="text" name="middle_name" placeholder="Middle Name"
-                                style="width:100%; padding:12px; border:1px solid #ccc; border-radius:8px;"/>
+
+                        <!-- Gender, DOB, Nationality, Blood Group -->
+                        <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                            <div style="flex:1; min-width:150px;">
+                                <select name="gender" t-att-value="student.gender or ''"
+                                        t-att-disabled="student.state != 'draft'"
+                                        style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px;">
+                                    <option value="">Gender</option>
+                                    <option value="male" t-att-selected="student.gender=='male'">Male</option>
+                                    <option value="female" t-att-selected="student.gender=='female'">Female</option>
+                                    <option value="other" t-att-selected="student.gender=='other'">Other</option>
+                                </select>
+                            </div>
+
+                            <div style="flex:1; min-width:150px;">
+                                <input type="date" name="date_of_birth" t-att-value="student.date_of_birth or ''"
+                                    t-att-disabled="student.state != 'draft'"
+                                    style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px;"
+                                    placeholder="Date of Birth"/>
+                            </div>
+
+                            <div style="flex:1; min-width:150px;">
+                                <input type="text" name="nationality" t-att-value="student.nationality or ''"
+                                    t-att-disabled="student.state != 'draft'"
+                                    style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px;"
+                                    placeholder="Nationality"/>
+                            </div>
+
+                            <div style="flex:1; min-width:150px;">
+                                <select name="blood_group" t-att-value="student.blood_group or ''"
+                                        t-att-disabled="student.state != 'draft'"
+                                        style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px;">
+                                    <option value="">Blood Group</option>
+                                    <option value="A+" t-att-selected="student.blood_group=='A+'">A+</option>
+                                    <option value="A-" t-att-selected="student.blood_group=='A-'">A-</option>
+                                    <option value="B+" t-att-selected="student.blood_group=='B+'">B+</option>
+                                    <option value="B-" t-att-selected="student.blood_group=='B-'">B-</option>
+                                    <option value="O+" t-att-selected="student.blood_group=='O+'">O+</option>
+                                    <option value="O-" t-att-selected="student.blood_group=='O-'">O-</option>
+                                    <option value="AB+" t-att-selected="student.blood_group=='AB+'">AB+</option>
+                                    <option value="AB-" t-att-selected="student.blood_group=='AB-'">AB-</option>
+                                </select>
+                            </div>
                         </div>
-                        <div style="flex:1;">
-                            <label style="font-weight:bold;">Last Name</label>
-                            <input type="text" name="last_name" placeholder="Last Name"
-                                style="width:100%; padding:12px; border:1px solid #ccc; border-radius:8px;"/>
+
+                        <!-- Email + Phone -->
+                        <div style="display:flex; gap:8px; margin-bottom:10px;">
+                            <input type="email" name="email" t-att-value="student.email or ''"
+                                placeholder="Email Address" required="required"
+                                t-att-disabled="student.state != 'draft'"
+                                style="flex:1; padding:10px; border:1px solid #ccc; border-radius:6px;"/>
+                            <input type="text" name="phone" t-att-value="student.phone or ''"
+                                placeholder="Phone Number"
+                                t-att-disabled="student.state != 'draft'"
+                                style="flex:1; padding:10px; border:1px solid #ccc; border-radius:6px;"/>
                         </div>
-                    </div>
 
-                    <!-- Email -->
-                    <div>
-                        <label style="font-weight:bold; display:flex; align-items:center; gap:8px;">
-                            <span class="material-icons" style="color:black; font-size:22px;">email</span> Email
-                        </label>
-                        <input type="email" name="email" placeholder="you@example.com" required="required"
-                            style="width:100%; padding:12px; border:1px solid #ccc; border-radius:8px;"/>
-                    </div>
+                        <!-- Address -->
+                        <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                            <input type="text" name="street" placeholder="Street" t-att-value="student.street or ''"
+                                t-att-disabled="student.state != 'draft'"
+                                style="flex:2; padding:10px; border:1px solid #ccc; border-radius:6px;"/>
+                            <input type="text" name="street2" placeholder="Street 2" t-att-value="student.street2 or ''"
+                                t-att-disabled="student.state != 'draft'"
+                                style="flex:2; padding:10px; border:1px solid #ccc; border-radius:6px;"/>
+                            <input type="text" name="city" placeholder="City" t-att-value="student.city or ''"
+                                t-att-disabled="student.state != 'draft'"
+                                style="flex:1; padding:10px; border:1px solid #ccc; border-radius:6px;"/>
+                            <input type="text" name="zip" placeholder="Zip Code" t-att-value="student.zip or ''"
+                                t-att-disabled="student.state != 'draft'"
+                                style="flex:1; padding:10px; border:1px solid #ccc; border-radius:6px;"/>
+                        </div>
 
-                    <!-- Phone -->
-                    <div>
-                        <label style="font-weight:bold; display:flex; align-items:center; gap:8px;">
-                            <span class="material-icons" style="color:black; font-size:22px;">phone</span> Phone Number
-                        </label>
-                        <input type="text" name="phone" placeholder="+880123456789"
-                            style="width:100%; padding:12px; border:1px solid #ccc; border-radius:8px;"/>
-                    </div>
+                        <!-- Country & State -->
+                        <div style="display:flex; gap:8px; margin-bottom:10px;">
+                            <div style="flex:1;">
+                                <select name="country" t-att-disabled="student.state != 'draft'"
+                                        style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px;">
+                                    <option value="">Select Country</option>
+                                    <t t-foreach="request.env['res.country'].sudo().search([])" t-as="country">
+                                        <option t-att-value="country.id" t-att-selected="student.country_id and country.id == student.country_id.id">
+                                            <t t-esc="country.name"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
 
-                    <!-- Address -->
-                    <div>
-                        <label style="font-weight:bold; display:flex; align-items:center; gap:8px;">
-                            <span class="material-icons" style="color:black; font-size:22px;">home</span> Address
-                        </label>
-                        <textarea name="address" rows="3" placeholder="Your Address"
-                            style="width:100%; padding:12px; border:1px solid #ccc; border-radius:8px;"></textarea>
-                    </div>
+                            <div style="flex:1;">
+                                <select name="state" t-att-disabled="student.state != 'draft'"
+                                        style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px;">
+                                    <option value="">Select State</option>
+                                    <t t-foreach="request.env['res.country.state'].sudo().search([])" t-as="state">
+                                        <option t-att-value="state.id" t-att-selected="student.state_id and state.id == student.state_id.id">
+                                            <t t-esc="state.name"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
 
-                    <!-- Photo Upload -->
-                    <div>
-                        <label style="font-weight:bold; display:flex; align-items:center; gap:8px;">
-                            <span class="material-icons" style="color:black; font-size:22px;">photo_camera</span> Profile Image
-                        </label>
-                        <input type="file" name="photo" accept="image/*"
-                            style="width:100%; padding:10px; border:1px solid #ccc; border-radius:8px;"/>
-                    </div>
-
-                    <!-- Preferred Country -->
-                    <div>
-                        <label style="font-weight:bold; display:flex; align-items:center; gap:8px;">
-                            <span class="material-icons" style="color:black; font-size:22px;">public</span> Preferred Country
-                        </label>
-                        <select name="country" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:8px;">
-                            <option value="">Select Country</option>
-                            <t t-foreach="countries" t-as="c">
-                                <option t-att-value="c.id"><t t-esc="c.name"/></option>
+                        <!-- Photo -->
+                        <div style="margin-bottom:10px;">
+                            <input type="file" name="photo" accept="image/*"
+                                t-att-disabled="student.state != 'draft'"
+                                style="width:100%; padding:8px; border:1px solid #ccc; border-radius:6px;"/>
+                            <t t-if="student.photo">
+                                <img t-att-src="'data:image/png;base64,%s' % student.photo"
+                                    alt="Profile" style="width:70px; height:70px; margin-top:8px; border-radius:50%;"/>
                             </t>
-                        </select>
-                    </div>
+                        </div>
 
-                    <!-- Admission Officer -->
-                    <div>
-                        <label style="font-weight:bold; display:flex; align-items:center; gap:8px;">
-                            <span class="material-icons" style="color:black; font-size:22px;">badge</span> Admission Officer
-                        </label>
-                        <select name="officer" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:8px;">
-                            <option value="">Select Officer</option>
-                            <t t-foreach="officers" t-as="o">
-                                <option t-att-value="o.id"><t t-esc="o.name"/></option>
-                            </t>
-                        </select>
-                    </div>
+                        <!-- Preferred Country & Admission Officer -->
+                        <div style="display:flex; gap:8px; margin-bottom:10px;">
+                            <div style="flex:1;">
+                                <select t-att-disabled="'disabled'" name="country"
+                                        style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px;">
+                                    <option value="">Preferred Country</option>
+                                    <t t-foreach="countries" t-as="c">
+                                        <option t-att-value="c.id"
+                                                t-att-selected="student.country and student.country.id == c.id">
+                                            <t t-esc="c.name"/>
+                                        </option>
+                                    </t>
+                                </select>
+                                <input type="hidden" name="country"
+                                    t-att-value="student.country and student.country.id or ''"/>
+                            </div>
 
-                    <!-- Submit Button -->
-                    <div style="text-align:center; margin-top:10px;">
-                        <button type="submit"
-                            style="background-color:#28a745; color:white; padding:14px 40px; border:none; border-radius:10px; font-size:16px; font-weight:bold; cursor:pointer; transition:0.3s;">
-                            Submit
-                        </button>
-                    </div>
-                </form>
+                            <div style="flex:1;">
+                                <select t-att-disabled="True" name="officer"
+                                        style="width:100%; padding:10px; border:1px solid #ccc; border-radius:6px;">
+                                    <option value="">Admission Officer</option>
+                                    <t t-foreach="officers" t-as="o">
+                                        <option t-att-value="o.id"
+                                                t-att-selected="student.admission_officer_ids and o.id in student.admission_officer_ids.ids">
+                                            <t t-esc="o.name"/>
+                                        </option>
+                                    </t>
+                                </select>
+                                <input type="hidden" name="officer"
+                                    t-att-value="(student.admission_officer_ids and student.admission_officer_ids[0].id) or ''"/>
+                            </div>
+                        </div>
+
+                        <!-- Submit -->
+                        <div style="text-align:center;">
+                            <button type="submit"
+                                    style="background-color:#28a745; color:white; padding:12px 36px; border:none; border-radius:8px; font-size:15px; font-weight:bold; cursor:pointer; transition:0.3s;">
+                                Save Changes
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
             </div>
-        </div>
         </t>
     </template>
 </odoo>

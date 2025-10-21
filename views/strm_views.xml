@@ -100,32 +100,8 @@
                             </group>
                             <group>
                                 <group>
-                                    <field name="title" placeholder="Title" domain="[]" options='{"no_open": True}'/>
-                                    <field name="email_from" id="email_from_group_lead_info" string="Email" widget="email"/>
-                                    <field name="phone" id="phone_group_lead_info" widget="phone"/>
-                                    <field name="how_did_you_hear"/>
-                                </group>
-                                <group>
-                                    <field name="office_visit_date"/>
-                                    <field name="file_open_date"/>
-                                    <field name="done_date"/>
-                                    <field name="cancel_date"/> 
-                                </group>
-                            </group>
-
-                        <notebook>
-                            <page string="Personal Info">
-                                <group col="2">
-                                    <group string="Contact Info">
-                                        <field name="name" readonly="1"/>
-                                        <field name="website" widget="url" placeholder="e.g. https://www.odoo.com"/>
-                                        <field name="lang_active_count" invisible="1"/>
-                                        <field name="lang_id" invisible="lang_active_count &lt;= 1"
-                                            options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/> 
-                                        <field name="current_profession"/>
-                                </group>
-                                    <group string="Address"> 
-                                    <label for="street_page_lead" string="Address"/>
+                                    <field name="student_id" placeholder="Enter student ID"/>
+                                    <label for="street_page_lead" string="Contact"/>
                                     <div class="o_address_format">
                                         <field name="street" id="street_page_lead" placeholder="Street..." class="o_address_street"/>
                                         <field name="street2" placeholder="Street 2..." class="o_address_street"/>
@@ -134,10 +110,30 @@
                                         <field name="zip" placeholder="ZIP" class="o_address_zip"/>
                                         <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
                                     </div>
-                                    </group>  
+                                    <field name="website" widget="url" placeholder="e.g. https://www.odoo.com"/>
+                                    <field name="is_student_created"/>
                                 </group>
+                                <group>
+                                    <field name="title" placeholder="Title" domain="[]" options='{"no_open": True}'/>
+                                    <field name="mobile" placeholder="015686..."/>
+                                    <field name="email_from" id="email_from_group_lead_info" string="Email" widget="email"/>
+                                    <field name="phone" id="phone_group_lead_info" widget="phone"/>
+                                    <field name="how_did_you_hear"/>
+                                </group>
+                            </group>
+
+                        <notebook>
+                            <page string="Personal">
+                                    <group string="Contact Info">
+                                        <field name="gender"/>
+                                        <field name="date_of_birth"/>
+                                        <field name="age" readonly="1"/>
+                                        <field name="nationality" />
+                                        <field name="blood_group" />
+                                        <field name="current_profession"/>
+                                    </group>
                             </page>
-                            <page string="Required Info">
+                            <page string="Office">
                                 <group col="2">
                                     <group string="Study Info">
                                         <field name="preferred_country_id" widget="many2many_tags"/>
@@ -148,23 +144,42 @@
                                         
                                 </group>
                                     <group string="Language Info"> 
+                                        <field name="lang"/>
                                         <field name="english_proficiency"/>
                                         <field name="counseling_mode"/>
                                         <field name="counselor_id"/>
                                     </group>  
                                 </group>
                                 <group string="Team and Process">
+                                    <group >
                                     <field name="study_source_id"/>
                                     <field name="team_id"/>
                                 <field name="sponsor"/>
                                 <field name="company_id" invisible="1"/>
                                 </group>
+                                <group >
+                                    <field name="office_visit_date"/>
+                                    <field name="file_open_date"/>
+                                    <field name="done_date"/>
+                                    <field name="cancel_date"/>
+                                </group>
+                                </group>    
                             </page>
                             <page string="Follow Ups">
                                 <field name="follow_up_ids" widget="one2many_list" mode="tree,form">
                                     <tree editable="bottom">
                                         <field name="activity_type"/>
                                         <field name="schedule_date"/>
+                                        <field name="note"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Document Checkbox">
+                                <field name="document_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="date"/>
+                                        <field name="document_type_id"/>
+                                        <field name="state"/>
                                         <field name="note"/>
                                     </tree>
                                 </field>

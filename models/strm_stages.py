@@ -20,3 +20,4 @@ class StrmStages(models.Model):
             default="office_visit",
             tracking=True,
         )
+    

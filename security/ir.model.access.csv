@@ -4,8 +4,9 @@ access_dsl_study_country_institute,access.dsl.study.country.institute,model_dsl_
 access_dsl_study_country_institute_program,access.dsl.study.country.institute.program,model_dsl_study_country_institute_program,base.group_user,1,1,1,1
 access_dsl_study_source,access.dsl.study.source,model_dsl_study_source,,1,1,1,1
 access_dsl_study_follow_up,access.dsl.study.follow.up,model_dsl_study_follow_up,,1,1,1,1
-
-
+,,,,,,,
+,,,,,,,
+,,,,,,,
 access_dsl_study_student,access.dsl.study.student,model_dsl_study_student,base.group_user,1,1,1,1
 access_dsl_study_parent,access.dsl.study.parent,model_dsl_study_parent,base.group_user,1,1,1,1
 access_dsl_study_address,access.dsl.study.student.address,model_dsl_study_student_address,base.group_user,1,1,1,1
@@ -19,7 +20,8 @@ access_document_charge_wizard,access.document.charge.wizard,model_document_charg
 access_dsl_study_student_program_line,access.dsl.study.student.program.line,model_dsl_study_student_program_line,base.group_user,1,1,1,1
 access_dsl_study_agent,access.dsl.study.agent,model_dsl_study_agent,base.group_user,1,1,1,1
 access_dsl_study_agent_fees,access.dsl.study.agent.fees,model_dsl_study_agent_fees,base.group_user,1,1,1,1
-access_language_test,access_language_test,model_language_test,base.group_user,1,1,1,1
-access_language_test_data,access.language.test.data,model_language_test_data,base.group_user,1,1,1,1
-access_gmat,access.gmat,model_gmat,base.group_user,1,1,1,1
-access_gre,access.gre,model_gre,base.group_user,1,1,1,1
+access_dsl_study_language_test,access.dsl.study.language.test,model_dsl_study_language_test,base.group_user,1,1,1,1
+access_dsl_study_language_test_data,access.dsl.study.language.test.data,model_dsl_study_language_test_data,base.group_user,1,1,1,1
+access_dsl_study_gmat,access.dsl.study.gmat,model_dsl_study_gmat,base.group_user,1,1,1,1
+access_dsl_study_gre,access.dsl.study.gre,model_dsl_study_gre,base.group_user,1,1,1,1
+access_dsl_study_visa_permit,access.dsl.study.visa.permit,model_dsl_study_visa_permit,base.group_user,1,1,1,1

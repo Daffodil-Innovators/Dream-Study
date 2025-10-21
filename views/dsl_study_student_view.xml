@@ -13,7 +13,6 @@
                     <field name="mobile" string="Mobile" />
                     <filter string="Active" name="active_filter" domain="[('active','=',True)]" />
                 </search>
-
             </field>
         </record>
 
@@ -293,15 +292,14 @@
                                     </tree>
                                 </field>
                             </page>
-<!-- =================================full form views of language test, standardized test, visa/permit================================ -->
 
                             <!-- Language Tests -->
-                            <page string="Language Tests" name="language_test">
+                            <page string="Language Tests" name="Languagetest">
                                 <field name="language_test_line_ids">
                                     <form>
                                         <group>
                                             <group>
-                                                <field name="student_id_string"/>
+                                                <field name="student_id"/>
                                                 <field name="reading"/>
                                                 <field name="speaking"/>
                                                 <field name="date_of_exam"/>
@@ -317,7 +315,7 @@
                                         </group>
                                     </form>
                                     <tree>
-                                        <field name="student_id_string"/>
+                                        <field name="student_id"/>
                                         <field name="reading"/>
                                         <field name="listening"/>
                                         <field name="date_of_exam"/>
@@ -330,8 +328,6 @@
                                     </tree>
                                 </field>
                             </page>
-
-                            <!-- Standardized Tests -->
 
                             <!-- GMAT -->
                             <page string="GMAT" name="gmat">
@@ -412,7 +408,7 @@
                                         <sheet>
                                             <group>
                                                 <group>
-                                                    <field name="student_id_string"/>
+                                                    <field name="student_id"/>
                                                     <field name="have_refused_visa"/>
                                                 </group>
                                                 <group>
@@ -423,14 +419,13 @@
                                         </sheet>
                                     </form>
                                     <tree>
-                                        <field name="student_id_string"/>
+                                        <field name="student_id"/>
                                         <field name="have_refused_visa"/>
                                         <field name="valid_study_permit_visa_1"/>
                                         <field name="more_information"/>
                                     </tree>
                                 </field>
                             </page>
-<!-- =============================================end of the full form views of language test, standardized test, visa/permit================================ --> -->
 
                             <!-- Documents -->
                             <page string="Document Checkbox">
@@ -468,10 +463,7 @@
             <field name="name">Students</field>
             <field name="res_model">dsl.study.student</field>
             <field name="view_mode">tree,form</field>
-            <!-- <field name="target">new</field> -->
-
         </record>
-
 
     </data>
 </odoo>

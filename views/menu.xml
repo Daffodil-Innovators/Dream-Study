@@ -9,126 +9,122 @@
               action="action_dsl_student"
               sequence="1"/>
 
+
     <!-- menu item for Configuration -->
 
     <menuitem
-                id="crm_menu_config"
-                name="Configuration"
-                parent="menu_dsl_study_root" />
+            id="crm_menu_config"
+            name="Configuration"
+            parent="menu_dsl_study_root"/>
 
-        <!-- menu item for program -->
-        <menuitem id="menu_dsl_program"
-                name="Programs"
-                parent="menu_dsl_study_root"
-                action="action_dsl_study_student_program_line" />
-
-        <!-- Menu for Document Types -->
-        <menuitem id="menu_dsl_document_type"
-                name="Document Types"
-                parent="crm_menu_config"
-                action="action_document_type" />
-
-         <!-- agent menus -->
-        <menuitem id="menu_study_agent_root"
-                name="Agents"
-                parent="menu_dsl_study_root"
-                sequence="6" />
-
-        <menuitem id="menu_study_agent"
-                name="Agents"
-                parent="menu_study_agent_root"
-                action="action_dsl_study_agent"
-                sequence="1" />
-
-        <menuitem id="menu_study_agent_fees"
-                name="Agent Fees"
-                parent="menu_study_agent_root"
-                action="action_dsl_study_agent_fees"
-                sequence="2" />
+    <!-- Menu for Document Types -->
+    <menuitem id="menu_dsl_document_type"
+              name="Document Types"
+              parent="crm_menu_config"
+              action="action_document_type"/>
 
 
-        <menuitem
-                id="strm_menu"
-                name="STRM"
-                sequence="10" />
+    <!-- agent menus -->
+    <menuitem id="menu_study_agent_root"
+              name="Agents"
+              parent="menu_dsl_study_root"
+              sequence="6"/>
 
-        <menuitem
-                id="strm_menu_leads"
-                name="Leads"
-                parent="strm_menu"
-                action="dsl_study_core.action_strm_leads" />
+    <menuitem id="menu_study_agent"
+              name="Agents"
+              parent="menu_study_agent_root"
+              action="action_dsl_study_agent"
+              sequence="1"/>
 
-        <menuitem
-                id="strm_menu_report"
-                name="Reporting"
-                parent="strm_menu" />
+    <menuitem id="menu_study_agent_fees"
+              name="Agent Fees"
+              parent="menu_study_agent_root"
+              action="action_dsl_study_agent_fees"
+              sequence="2"/>
 
-        <menuitem
-                id="crm_activity_report_menu"
-                name="Activities"
-                parent="strm_menu_report"
-                action="crm.crm_activity_report_action"
-                sequence="4" />
 
-        <menuitem
-                id="config_menu"
-                name="Configuration"
-                parent="strm_menu"
-                sequence="13" />
+    <menuitem
+            id="strm_menu"
+            name="STRM"
+            sequence="10"/>
 
-        <menuitem
-                id="strm_menu_settings"
-                name="Settings"
-                parent="config_menu"
-                action="crm.crm_config_settings_action"
-                sequence="0" />
+    <menuitem
+            id="strm_menu_leads"
+            name="Leads"
+            parent="strm_menu"
+            action="dsl_study_core.action_strm_leads"/>
 
-        <menuitem
-                id="setting_menu"
-                name="Settings"
-                parent="config_menu"
-                sequence="1" />
+    <menuitem
+            id="strm_menu_report"
+            name="Reporting"
+            parent="strm_menu"/>
 
-        <menuitem
-                id="menu_strm_lead_stage"
-                name="Stages"
-                sequence="2"
-                parent="config_menu"
-                action="strm_stages_action" />
+    <menuitem
+            id="crm_activity_report_menu"
+            name="Activities"
+            parent="strm_menu_report"
+            action="crm.crm_activity_report_action"
+            sequence="4"/>
 
-        <menuitem
-                id="menu_crm_lost_reason"
-                name="Lost Reasons"
-                parent="config_menu"
-                action="crm.crm_lost_reason_action"
-                sequence="3" />
+    <menuitem
+            id="config_menu"
+            name="Configuration"
+            parent="strm_menu"
+            sequence="13"/>
 
-        <menuitem
-                id="source_menu"
-                name="Source"
-                action="dsl_study_source_action"
-                parent="config_menu"
-                sequence="5" />
+    <menuitem
+            id="strm_menu_settings"
+            name="Settings"
+            parent="config_menu"
+            action="crm.crm_config_settings_action"
+            sequence="0"/>
 
-        <menuitem
-                id="dsl_study_country_menu"
-                name="Country"
-                action="action_dsl_study_country"
-                parent="config_menu"
-                sequence="6" />
+    <menuitem
+            id="setting_menu"
+            name="Settings"
+            parent="config_menu"
+            sequence="1"/>
 
-        <menuitem
-                id="dsl_study_country_institute_menu"
-                name="Institutes"
-                action="action_dsl_study_country_institute"
-                parent="config_menu"
-                sequence="7" />
+    <menuitem
+            id="menu_strm_lead_stage"
+            name="Stages"
+            sequence="2"
+            parent="config_menu"
+            action="strm_stages_action"/>
 
-        <menuitem
-                id="dsl_study_country_institute_program_menu"
-                name="Programs"
-                action="action_dsl_study_country_institute_program"
-                parent="config_menu"
-                sequence="8" />
+    <menuitem
+            id="menu_crm_lost_reason"
+            name="Lost Reasons"
+            parent="config_menu"
+            action="crm.crm_lost_reason_action"
+            sequence="3"/>
+
+    <menuitem
+            id="source_menu"
+            name="Source"
+            action="dsl_study_source_action"
+            parent="config_menu"
+            sequence="5"/>
+
+    <menuitem
+            id="dsl_study_country_menu"
+            name="Country"
+            action="action_dsl_study_country"
+            parent="config_menu"
+            sequence="6"/>
+
+    <menuitem
+            id="dsl_study_country_institute_menu"
+            name="Institutes"
+            action="action_dsl_study_country_institute"
+            parent="config_menu"
+            sequence="7"/>
+
+    <menuitem
+            id="dsl_study_country_institute_program_menu"
+            name="Programs"
+            action="action_dsl_study_country_institute_program"
+            parent="config_menu"
+            sequence="8"/>
 
 </odoo>

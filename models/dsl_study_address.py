@@ -48,8 +48,8 @@ class DslStudyStudentAddress(models.Model):
     student_id = fields.Many2one(
         comodel_name="dsl.study.student",
         string="Student",
-        required=True,
         ondelete="cascade",
+        readonly=True,
     )
 
     def toggle_active(self):

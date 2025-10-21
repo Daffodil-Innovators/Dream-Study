@@ -15,12 +15,13 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'crm', 'website'],
+    'depends': ['base', 'crm', 'website', 'web'],
 
     'assets': {
-        'web.assets_backend': [
-            # 'dsl_study_core/static/src/css/styles.css',
-            'dsl_study_core/static/src/icons'
+        'web.assets_frontend': [
+            'dsl_study_core/static/src/css/style.css',
+            'dsl_study_core/static/src/css/outfit.css',
+            
         ],
     },
 
@@ -52,6 +53,8 @@
         'views/strm_stages_view.xml',
         'views/student_profile_form.xml',
         'views/portal_template.xml',
+        # 'views/user_dashboard.xml',
+        'views/admission_ac_header.xml',
 
         "wizard/security_money_wizard_view.xml",
         "wizard/document_charge_wizard_view.xml",
